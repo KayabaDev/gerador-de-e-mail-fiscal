@@ -1,3 +1,20 @@
+function themeChange() {
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeLabel = document.getElementById('theme-label');
+
+    themeToggle.addEventListener('click', () => {
+        const temaAtual = document.documentElement.getAttribute('data-theme');
+
+        if (temaAtual === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'light');
+            themeLabel.textContent = '☀️ Light';
+        } else {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            themeLabel.textContent = '🌙 Dark';
+        }
+    });
+}
+
 function maskCNPJ(input) {
   let v = input.value.replace(/\D/g, '').substring(0, 14);
   if (v.length > 12) v = v.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d+)/, '$1.$2.$3/$4-$5');
@@ -57,6 +74,7 @@ function copyEmail() {
   });
 }
 
+themeChange();
 // Inicializa eventos
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('cnpj').addEventListener('input', function () { maskCNPJ(this); update(); });
