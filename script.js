@@ -1,29 +1,51 @@
-function themeChange() {
-    const themeToggle = document.getElementById('theme-toggle');
-    const themeLabel = document.getElementById('theme-label');
-
-    themeToggle.addEventListener('click', () => {
-        const temaAtual = document.documentElement.getAttribute('data-theme');
-
-        if (temaAtual === 'dark') {
-            document.documentElement.setAttribute('data-theme', 'light');
-            themeLabel.textContent = '☀️ Light';
-        } else {
-            document.documentElement.setAttribute('data-theme', 'dark');
-            themeLabel.textContent = '🌙 Dark';
-        }
-    });
+// ── Tema ──────────────────────────────────────────
+function initTheme() {
+  const saved = localStorage.getItem('theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const theme = saved || (prefersDark ? 'dark' : 'light');
+  applyTheme(theme);
 }
 
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  const label = document.getElementById('theme-label');
+  label.textContent = theme === 'dark' ? '🌙 Dark' : '☀️ Light';
+  localStorage.setItem('theme', theme);
+}
+
+function toggleTheme() {
+  const current = document.documentElement.getAttribute('data-theme');
+  applyTheme(current === 'dark' ? 'light' : 'dark');
+}
+
+// ── CNPJ mask (alfanumérico) ──────────────────────
+// Formato: XX.XXX.XXX/XXXX-DD
+// - Posições 1–12: letras maiúsculas ou dígitos
+// - Posições 13–14: apenas dígitos (verificadores)
 function maskCNPJ(input) {
-  let v = input.value.replace(/\D/g, '').substring(0, 14);
-  if (v.length > 12) v = v.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d+)/, '$1.$2.$3/$4-$5');
-  else if (v.length > 8) v = v.replace(/(\d{2})(\d{3})(\d{3})(\d+)/, '$1.$2.$3/$4');
-  else if (v.length > 5) v = v.replace(/(\d{2})(\d{3})(\d+)/, '$1.$2.$3');
-  else if (v.length > 2) v = v.replace(/(\d{2})(\d+)/, '$1.$2');
+  const raw = input.value.toUpperCase().replace(/[^A-Z0-9]/g, '').substring(0, 14);
+  const base  = raw.substring(0, 12);  // alfanumérico
+  const check = raw.substring(12, 14).replace(/\D/g, ''); // só dígitos
+
+  const full = base + check;
+  let v = '';
+
+  if (full.length > 12) {
+    v = `${full.substring(0,2)}.${full.substring(2,5)}.${full.substring(5,8)}/${full.substring(8,12)}-${full.substring(12)}`;
+  } else if (full.length > 8) {
+    v = `${full.substring(0,2)}.${full.substring(2,5)}.${full.substring(5,8)}/${full.substring(8)}`;
+  } else if (full.length > 5) {
+    v = `${full.substring(0,2)}.${full.substring(2,5)}.${full.substring(5)}`;
+  } else if (full.length > 2) {
+    v = `${full.substring(0,2)}.${full.substring(2)}`;
+  } else {
+    v = full;
+  }
+
   input.value = v;
 }
 
+// ── Gerador de e-mail ─────────────────────────────
 function update() {
   const cnpj     = document.getElementById('cnpj').value.trim();
   const razao    = document.getElementById('razao').value.trim();
@@ -74,9 +96,11 @@ function copyEmail() {
   });
 }
 
-themeChange();
-// Inicializa eventos
+// ── Init ──────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
+  initTheme();
+
+  document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
   document.getElementById('cnpj').addEventListener('input', function () { maskCNPJ(this); update(); });
   document.getElementById('razao').addEventListener('input', update);
   document.getElementById('nome').addEventListener('input', update);
