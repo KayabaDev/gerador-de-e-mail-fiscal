@@ -205,17 +205,9 @@ Consultor de Implantação | Stor Sistemas
 
 ---
 
-## 💻 Como Executar
+## 💻 Como Utilizar
 
-Basta abrir o arquivo:
-
-```text
-index.html
-```
-
-em qualquer navegador moderno.
-
-Não há dependências externas, instalação de pacotes ou necessidade de servidor.
+Basta acessar o link: https://kayabadev.github.io/gerador-de-e-mail-fiscal/
 
 ---
 
