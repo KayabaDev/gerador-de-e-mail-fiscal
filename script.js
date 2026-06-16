@@ -50,12 +50,17 @@ function update() {
   const cnpj     = document.getElementById('cnpj').value.trim();
   const razao    = document.getElementById('razao').value.trim();
   const nome     = document.getElementById('nome').value.trim() || '___________';
+  const cargo    = document.getElementById('cargo').value.trim();
+  const telefone = document.getElementById('telefone').value.trim();
+  const email    = document.getElementById('email').value.trim();
   const produtos = document.getElementById('nfe').checked || document.getElementById('nfce').checked;
   const nfse     = document.getElementById('nfse').checked;
   const cte      = document.getElementById('cte').checked;
-
+  const trocaCnpj = document.getElementById('troca-cnpj').checked;
   const out = document.getElementById('email-output');
   const btn = document.getElementById('btn-copy');
+
+  salvarDados(nome, cargo, telefone, email); // ✅ salva os dados a cada atualização
 
   if (!cnpj && !razao && !produtos && !nfse && !cte) {
     out.innerHTML = '<span class="empty-msg">Preencha os campos acima para gerar o e-mail.</span>';
@@ -66,8 +71,8 @@ function update() {
   const empresa = razao ? ` da empresa ${razao}` : '';
   const cnpjStr = cnpj  ? ` (CNPJ: ${cnpj})` : '';
 
-  let corpo = 'Bom dia, contador(a) responsável,\n\n';
-  corpo += `Por meio deste e-mail, solicito o apoio referente à configuração fiscal${empresa}${cnpjStr}.\n\n`;
+  let corpo = 'Prezado(a) contador(a),\n\n';
+  corpo += `Solicito o apoio referente à configuração fiscal${empresa}${cnpjStr}.\n\n`;
 
   if (produtos) {
     corpo += `Solicito o preenchimento do anexo "Escopo Fiscal Produtos.xlsx".\n\n`;
@@ -75,13 +80,19 @@ function update() {
   if (nfse) {
     corpo += `Informo ainda que o cliente realizará emissões de Nota Fiscal de Serviço. Solicito, portanto, o preenchimento do anexo "Escopo Fiscal Serviço.xlsx".\n\n`;
   }
-  if (cte) {
-    corpo += `Informo também que o cliente realizará emissões de Conhecimento de Transporte Eletrônico (CT-e). Solicito o preenchimento do anexo "Escopo Fiscal CTE.xlsx".\n\n`;
-  }
+    if (cte) {
+      corpo += `Informo também que o cliente realizará emissões de Conhecimento de Transporte Eletrônico (CT-e). Solicito o preenchimento do anexo "Escopo Fiscal CTE.xlsx".\n\n`;
+    }
+    if (trocaCnpj) {
+      corpo += `O cliente realizará uma troca de CNPJ. Solicito o preenchimento do anexo "Escopo Fiscal Troca de CNPJ.xlsx" e a verificação da configuração fiscal dos produtos informados no arquivo.\n\n`;
+    }
 
   corpo += 'Adicionalmente, peço o envio do certificado digital e respectiva senha para inclusão no sistema destinado às emissões fiscais.\n\n';
-  corpo += 'Em caso de dúvidas durante o preenchimento, por gentileza entre em contato pelo número: +55 65 9 9284-2660.\n\n';
-  corpo += `Atenciosamente,\n${nome}`;
+  corpo += `Atenciosamente,\n${nome} \n`
+  corpo += `${cargo} | Stor Sistemas \n`
+  corpo += `📞 ${telefone} \n`
+  corpo += `✉️ ${email} \n`
+  corpo += `🌐 www.storsistemas.com.br`;
 
   out.innerText = corpo;
   btn.classList.add('visible');
@@ -96,14 +107,34 @@ function copyEmail() {
   });
 }
 
+// ── Salva Dados ──────────────────────────────────────────
+
+function salvarDados(nome, cargo, telefone, email) {
+  localStorage.setItem('nome', nome);
+  localStorage.setItem('cargo', cargo);
+  localStorage.setItem('telefone', telefone);
+  localStorage.setItem('email', email);
+}
+
+function carregarDados() {
+  document.getElementById('nome').value = localStorage.getItem('nome') || '';
+  document.getElementById('cargo').value = localStorage.getItem('cargo') || '';
+  document.getElementById('telefone').value = localStorage.getItem('telefone') || '';
+  document.getElementById('email').value = localStorage.getItem('email') || '';
+}
+
 // ── Init ──────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
+  carregarDados(); // ✅ carrega os dados salvos ao abrir a página
 
   document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
   document.getElementById('cnpj').addEventListener('input', function () { maskCNPJ(this); update(); });
   document.getElementById('razao').addEventListener('input', update);
   document.getElementById('nome').addEventListener('input', update);
+  document.getElementById('cargo').addEventListener('input', update);
+  document.getElementById('telefone').addEventListener('input', update);
+  document.getElementById('email').addEventListener('input', update);
   document.getElementById('nfe').addEventListener('change', update);
   document.getElementById('nfce').addEventListener('change', update);
   document.getElementById('nfse').addEventListener('change', update);

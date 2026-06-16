@@ -11,10 +11,7 @@
     <div class="header">
       <h1>Gerador de e-mail fiscal</h1>
       <div class="theme-toggle" id="theme-toggle" title="Alternar tema">
-        <span id="theme-label">☀️ Light</span>
-        <div class="toggle-track">
-          <div class="toggle-knob"></div>
-        </div>
+        <span id="theme-label">🌙 Dark</span>
       </div>
     </div>
 
@@ -58,6 +55,13 @@
             <small>📎 Escopo Fiscal CTE.xlsx</small>
           </div>
         </label>
+        <label class="check-item">
+          <input type="checkbox" id="troca-cnpj" />
+          <div class="check-label">
+            <span>Troca de CNPJ</span>
+            <small>📎 Escopo Fiscal Troca de CNPJ.xlsx</small>
+          </div>
+        </label>
       </div>
     </div>
 
@@ -74,6 +78,12 @@
       <div class="field">
         <label for="nome">Nome do Remetente</label>
         <input type="text" id="nome" placeholder="Seu nome" />
+        <label for="cargo">Cargo</label>
+        <input type="text" id="cargo" placeholder="Cargo" />
+        <label for="telefone">Telefone</label>
+        <input type="text" id="telefone" placeholder="Telefone para contato" />
+        <label for="email">E-mail</label>
+        <input type="email" id="email" placeholder="E-mail para contato" />
       </div>
     </div>
 
