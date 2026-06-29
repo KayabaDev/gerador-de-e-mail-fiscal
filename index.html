@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gerador de E-mail Fiscal</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Gerador de e-mail fiscal</h1>
+      <div class="theme-toggle" id="theme-toggle" title="Alternar tema">
+        <span id="theme-label">☀️ Light</span>
+        <div class="toggle-track">
+          <div class="toggle-knob"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Dados da empresa</div>
+      <div class="field">
+        <label for="cnpj">CNPJ</label>
+        <input type="text" id="cnpj" placeholder="00.000.000/0000-00" />
+      </div>
+      <div class="field">
+        <label for="razao">Razão social</label>
+        <input type="text" id="razao" placeholder="Nome da empresa Ltda." />
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Módulos fiscais</div>
+      <div class="check-group">
+        <div class="group-block">
+          <div class="group-block-label">📎 Escopo Fiscal Produtos.xlsx</div>
+          <label class="check-item">
+            <input type="checkbox" id="nfe" />
+            <div class="check-label"><span>NF-e — Nota Fiscal Eletrônica</span></div>
+          </label>
+          <label class="check-item">
+            <input type="checkbox" id="nfce" />
+            <div class="check-label"><span>NFC-e — Nota Fiscal de Consumidor Eletrônica</span></div>
+          </label>
+        </div>
+        <label class="check-item">
+          <input type="checkbox" id="nfse" />
+          <div class="check-label">
+            <span>NFS-e — Nota Fiscal de Serviço Eletrônica</span>
+            <small>📎 Escopo Fiscal Serviço.xlsx</small>
+          </div>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" id="cte" />
+          <div class="check-label">
+            <span>CT-e — Conhecimento de Transporte Eletrônico</span>
+            <small>📎 Escopo Fiscal CTE.xlsx</small>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Incluído por padrão</div>
+      <div class="tag-default">
+        <div class="info-tag">🔐 Certificado digital</div>
+        <div class="info-tag">🔑 Senha do certificado</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Assinatura</div>
+      <div class="field">
+        <label for="nome">Seu nome</label>
+        <input type="text" id="nome" placeholder="Ex: Maykon" />
+      </div>
+      <div class="field">
+        <label for="cargo">Cargo</label>
+        <input type="text" id="cargo" placeholder="Ex: Analista de Suporte" />
+      </div>
+      <div class="field">
+        <label for="telefone">Telefone</label>
+        <input type="text" id="telefone" placeholder="Ex: +55 65 9 9284-2660" />
+      </div>
+      <div class="field">
+        <label for="email">E-mail</label>
+        <input type="text" id="email" placeholder="Ex: maykon@stor.com.br" />
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">E-mail gerado</div>
+      <div id="email-output" class="email-box">
+        <span class="empty-msg">Preencha os campos acima para gerar o e-mail.</span>
+      </div>
+      <button class="btn-copy" id="btn-copy">📋 Copiar e-mail</button>
+    </div>
+
+    <footer>Gerador de E-mail Fiscal</footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
